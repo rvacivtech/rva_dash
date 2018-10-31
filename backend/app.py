@@ -1,8 +1,10 @@
 import json, configparser, re
+
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from streetaddress import StreetAddressFormatter, StreetAddressParser
+
+from street_types import street_direction_abbreviations, street_type_abbreviations
 
 
 # import config file to global object
@@ -16,48 +18,83 @@ CORS(app)
 app.config['SECRET_KEY'] = config.get('flask', 'secret_key')
 
 
-def parse_street_address(street_text):
-    addr_formatter = StreetAddressFormatter()
-    street = addr_formatter.append_TH_to_street(street_text) 
-    street = addr_formatter.abbrev_direction(street) 
-    street = addr_formatter.abbrev_street_avenue_etc(street) 
-    street = street.lower()
-    
-    addr_parser = StreetAddressParser()
-    street_dict = addr_parser.parse(street)
-    # street_dict['street_type'].replace('rd', 'road').replace('ln', 'lane')
-
-    direction_regex = re.compile(r'^([nsew][nsew]?\.?\s)\w')
+def format_address_street_type(address):
+    split_address = address.lower().split()
     try:
-        direction = direction_regex.search(street_dict['street_name']).group(1)
-        street_dict['street_name'] = street_dict['street_name'].replace(direction, '')
-        street_dict['direction'] = direction.replace('.', '').strip()
-    except:
-        pass
-    return street_dict 
-
-def find_richmond_property_assessment_by_street_dict(street_dict, zip_code):
-    app_token = config.get('richmond_open_data', 'app_token')
-    try: 
-        street_name = street_dict['street_name']
+        split_address[-1] = street_type_abbreviations[split_address[-1]]
     except KeyError:
-        raise KeyError('No street name found.')
+        pass
+    formatted_address = ' '.join(split_address)
+    return formatted_address
 
-    url = 'https://data.richmondgov.com/resource/jde6-giuc.json'
-    payload = {
-        '$$app_token': app_token,
-        'street_name': street_name,
-        'zip_code': zip_code,
-        }
-    if street_dict.get('house'):
-        payload['building_number'] = street_dict.get('house')
-    if street_dict.get('direction'):
-        payload['street_direction'] = street_dict.get('direction')
-    if street_dict.get('street_type'):
-        payload['street_type'] = street_dict.get('house')
 
-    r = requests.get(url, params=payload)
+def format_address_direction(address):
+    split_address = address.lower().split()
+    try:
+        split_address[1] = street_direction_abbreviations[split_address[1]]
+    except KeyError:
+        pass
+    formatted_address = ' '.join(split_address)
+    return formatted_address
+
+
+def get_property_assessment_by_address(address, zip_code):
+    app_token = config.get('richmond_open_data', 'app_token')
+    url = 'https://data.richmondgov.com/resource/jde6-giuc.json?%24%24app_token=a3P1TkGmqcICo27FNEJlNI3yq'
+    url +="&$where=lower(address)='{}'&zip_code={}".format(address.lower(), zip_code)
+    
+    r = requests.get(url)
     if r.status_code != 200:
-        raise Exception('Bad Response: Returned status code is {}.'.format(r.status_code))
+        raise Exception('Bad Response: Returned status code is {}. Content: {}'.format(r.status_code, r.content))
     data = r.json()
+
+    if not data:
+        formatted_address = format_address_street_type(address)
+        url_format_1 = url.replace(address, formatted_address)
+        r = requests.get(url_format_1)
+        if r.status_code != 200:
+            raise Exception('Bad Response: Returned status code is {}. Content: {}'.format(r.status_code, r.content))
+        data = r.json()
+        if not data:
+            formatted_address = format_address_direction(format_address_street_type(address))
+            url_format_2 = url.replace(address, formatted_address)
+            r = requests.get(url_format_2)
+            if r.status_code != 200:
+                raise Exception('Bad Response: Returned status code is {}. Content: {}'.format(r.status_code, r.content))
+            data = r.json()
     return data
+
+
+def get_parcel_summary_by_address(address, zip_code):
+    assessment_record = get_property_assessment_by_address(address, zip_code)
+    if not assessment_record:
+        raise Exception('Could not find property assessment record.  Unable to determine Parcel ID.')
+    elif len(assessment_record) > 1:
+        print('Warning: Provided address identified multiple assessment property records.')
+    parcel_id = assessment_record[0]['pin']
+
+    app_token = config.get('richmond_open_data', 'app_token')
+    url = 'https://data.richmondgov.com/resource/hi27-ghss.json?%24%24app_token=a3P1TkGmqcICo27FNEJlNI3yq'
+    url +="&$where=pin_pin='{}'".format(parcel_id)
+    r = requests.get(url)
+    if r.status_code != 200:
+        raise Exception('Bad Response: Returned status code is {}. Content: {}'.format(r.status_code, r.content))
+    data = r.json()
+
+    if len(data) > 1:
+        print('Warning: Associated Parcel ID Number (PIN) identified multiple parcel summary records.')
+
+    return data[0]
+
+
+@app.route('/', methods=['GET','POST'])
+def provide_parcel_summary():
+    print(request.form)
+    address = request.args.get('address')
+    zip_code = request.args.get('zip_code')
+    data = get_parcel_summary_by_address(address, zip_code)
+    return jsonify(data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
