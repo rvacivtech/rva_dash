@@ -50,7 +50,7 @@ def get_parcel_summary_by_address(address, zip_code):
     if not assessment_record:
         raise Exception('Could not find property assessment record.  Unable to determine Parcel ID.')
     elif len(assessment_record) > 1:
-        print('Warning: Provided address identified multiple assessment property records.')
+        print('Warning: Provided address identified multiple assessment property records.  Using first record.')
     parcel_id = assessment_record[0]['pin']
 
     app_token = config.get('richmond_open_data', 'app_token')
@@ -63,5 +63,5 @@ def get_parcel_summary_by_address(address, zip_code):
 
     if len(data) > 1:
         print('Warning: Associated Parcel ID Number (PIN) identified multiple parcel summary records.')
-    return data[0]
+    return data
 
