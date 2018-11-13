@@ -1,41 +1,14 @@
 import json, configparser, re
 
 import requests
-from flask import Flask, jsonify, request
-from flask_cors import CORS
 
-from street_types import street_direction_abbreviations, street_type_abbreviations
+from backend.utilities.format_address import format_address_street_type, format_address_direction
 
 
 # import config file to global object
 config = configparser.ConfigParser()
 config_file = 'config.ini'
 config.read(config_file)
-
-# instantiate flask app
-app = Flask(__name__)
-CORS(app)
-app.config['SECRET_KEY'] = config.get('flask', 'secret_key')
-
-
-def format_address_street_type(address):
-    split_address = address.lower().split()
-    try:
-        split_address[-1] = street_type_abbreviations[split_address[-1]]
-    except KeyError:
-        pass
-    formatted_address = ' '.join(split_address)
-    return formatted_address
-
-
-def format_address_direction(address):
-    split_address = address.lower().split()
-    try:
-        split_address[1] = street_direction_abbreviations[split_address[1]]
-    except KeyError:
-        pass
-    formatted_address = ' '.join(split_address)
-    return formatted_address
 
 
 def get_property_assessment_by_address(address, zip_code):
@@ -92,14 +65,3 @@ def get_parcel_summary_by_address(address, zip_code):
         print('Warning: Associated Parcel ID Number (PIN) identified multiple parcel summary records.')
     return data[0]
 
-
-@app.route('/', methods=['GET','POST'])
-def provide_parcel_summary():
-    address = request.args.get('address')
-    zip_code = request.args.get('zip_code')
-    data = get_parcel_summary_by_address(address, zip_code)
-    return jsonify(data)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
