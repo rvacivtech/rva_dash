@@ -1,4 +1,4 @@
-import json, configparser, re
+import json, configparser
 
 import requests
 

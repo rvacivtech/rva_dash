@@ -1,7 +1,11 @@
+import os
 from configparser import ConfigParser
 
 from flask import Flask
 from flask_cors import CORS
+
+# print(os.getcwd())
+# print(os.path.abspath('./config.ini'))
 
 # import config file to global object
 config = ConfigParser()

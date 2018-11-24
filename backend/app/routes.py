@@ -19,6 +19,9 @@ def get_address_and_zip_from_request(request):
         logging.debug('GET request received.')
         address = request.args.get('address')
         zip_code = request.args.get('zip_code')
+    else:
+        address=None
+        zip_code=None
     return (address, zip_code)
 
 @app.route('/api/parcel_summary', methods=['GET','POST'])
