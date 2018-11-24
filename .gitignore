@@ -31,6 +31,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+rvadash/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
