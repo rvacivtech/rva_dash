@@ -3,10 +3,13 @@ chardet==3.0.4
 Click==7.0
 Flask==1.0.2
 Flask-Cors==3.0.7
+gunicorn==19.9.0
+heroku==0.1.4
 idna==2.7
 itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.0
+python-dateutil==1.5
 requests==2.20.1
 responses==0.10.4
 six==1.11.0
