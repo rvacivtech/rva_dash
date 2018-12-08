@@ -1,4 +1,4 @@
-from backend.utilities.street_types import street_direction_abbreviations, street_type_abbreviations
+from rva_dash.utilities.street_types import street_direction_abbreviations, street_type_abbreviations
 
 def format_address_street_type(address):
     '''

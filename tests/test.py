@@ -1,7 +1,7 @@
 import unittest, os, re
 import requests, responses
-from backend.utilities import format_address
-from backend.app import routes, api_requests
+from rva_dash.utilities import format_address
+from rva_dash.app import routes, api_requests
 
 class TestUtilities(unittest.TestCase):
 

@@ -2,7 +2,7 @@ import json, configparser
 
 import requests
 
-from backend.utilities.format_address import format_address_street_type, format_address_direction
+from rva_dash.utilities.format_address import format_address_street_type, format_address_direction
 
 
 # import config file to global object

@@ -1,0 +1,5 @@
+[flask]
+secret_key = secret
+
+[richmond_open_data]
+app_token = qwertyuiop12345

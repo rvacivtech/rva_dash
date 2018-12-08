@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, jsonify, request
-from backend.app import app
-from backend.app.api_requests import get_parcel_summary_by_address, get_property_assessment_by_address
+from rva_dash.app import app
+from rva_dash.app.api_requests import get_parcel_summary_by_address, get_property_assessment_by_address
 
 logging.basicConfig(
     # filename="log.log",

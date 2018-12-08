@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = config.get('flask', 'secret_key')
 
-from backend.app import routes
+from rva_dash.app import routes
 
 if __name__ == '__main__':
     app.run(debug = True)
