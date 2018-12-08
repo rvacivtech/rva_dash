@@ -11,11 +11,12 @@ ssh to ubuntu machine
 `export PATH="$HOME/miniconda/bin:$PATH"`
 `conda env create`
 `source activate rva_dash`
-create `config.ini` file based off of `config.ini.example`
+create `config.ini` file based off of `config.ini.example` (i.e. `nano config.ini` and paste in from local copy)
 `conda install gunicorn`
 `echo "export FLASK_APP=rva_dash.py" >> ~/.profile`
 `export FLASK_APP=rva_dash.py`
 `nano /etc/supervisor/conf.d/rva_dash.conf`
+execute `gunicorn -b localhost:8000 -w 4 rva_dash:app` to test that gunicorn works.
 Paste the following and save the file (`ctrl+x` to exit and save):
         ```
         [program:rva_dash]
