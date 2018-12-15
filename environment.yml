@@ -1,6 +1,7 @@
 name: rva_dash
 dependencies:
   - python=3.7
+  - selenium=3.14.1
   - pip:
     - Flask==0.12.2
     - requests==2.18.4
