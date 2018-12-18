@@ -7,5 +7,6 @@ dependencies:
     - requests==2.18.4
     - flask-cors==3.0.3
     - responses==0.10.4
+    - SQLAlchemy==1.2.15
 
   
