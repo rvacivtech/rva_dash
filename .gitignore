@@ -3,6 +3,7 @@ config.ini
 *.db
 .idea
 *.json
+*.pem
 
 # GitHub template from https://github.com/github/gitignore/blob/master/Python.gitignore
 
