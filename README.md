@@ -1,3 +1,9 @@
+## [Resources](https://github.com/rvacivtech/rva_dash/tree/master/resources)  
+Examples of local data in use, literature on the topic, etc. I find stuff like this to be really helpful, but understand if its not wanted in a repository.  
+
+## [Dashboard Notes](https://github.com/rvacivtech/rva_dash/blob/master/notes.md)  
+These notes should most likely be merged into this file.  
+
 ### Dashboard Ideas
 * Crime Map and Visualizations
 * Trash Pickup Tool
