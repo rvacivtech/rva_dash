@@ -1,16 +1,22 @@
+# 2018-12 Meeting Notes  
+
 Most of the meeting's technical aspects were about the Dashboard;  
 
 Breaking the Dashboard down, the dash will be made up of cards, each of which will be used to display some form of data (ideally real-time/current, etc.).  
 When applicable, the data shown by the cards should be customizable, based on the user's address.  
 This is addressed via search input asking for said data.  
 Specifically, we are not going to ask for user geo via browser because of how wonky the experience is cross-browser/platform.  
-The number/type of cards is not set in stone, anything applicable I would assume is game, but we should also be selective.  
+The number/type of cards is not set in stone, anything applicable I would assume is game, but we should also be selective. 
+Below is the first iteration of whiteboarding:  
+![Dashboard WhiteBoarding Version 01](https://raw.githubusercontent.com/rvacivtech/rva_dash/master/resources/dashboard-whiteboard-2018-12-0359-crop-w0900.jpg)  
 The defined cards so far are: Crime, Weather, Property, Calendar, Government Reps, and City Actions.
 Input and/or data points are best described in the pix I took, which I'll post soon.  
 As an example, the crime card will show some default data; perhaps felony assaults over the past month.  
 Iterating on the current data is a great way to show context; in this case we could show what they were five-ten years ago.  
 Should the user provide their address, we can double down on the data points:  
 To continue this example, show felonious assaults recently occuring around them.  
+Below is a fleshed out version of the whiteboarding:  
+![Dashboard Whiteboarding Version 01 Fleshed Out](https://raw.githubusercontent.com/rvacivtech/rva_dash/master/resources/dashboard-whiteboard-2018-12-0361-crop-w0900.jpg)   
 Once this correctly in the repo, each card will need a dedicated space for sharing ideas/thoughts around data points, as well as a space for sharing ideas for cards. preferably the same space*.  
 
 ## Current Card thoughts/discussions:  
