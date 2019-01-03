@@ -4,7 +4,10 @@ Examples of local data in use, literature on the topic, etc. I find stuff like t
 ## [Dashboard Notes](https://github.com/rvacivtech/rva_dash/blob/master/notes.md)  
 These notes should most likely be merged into this file.  
 
-### Dashboard Ideas
+## [Meeting Notes](https://github.com/rvacivtech/rva_dash/blob/master/meeting-notes-2018-12.md)  
+From 2018-12, these need to @ least be turned into issues, if not merged here.  
+
+## Dashboard Ideas
 * Crime Map and Visualizations
 * Trash Pickup Tool
 * Voting Location Tool
