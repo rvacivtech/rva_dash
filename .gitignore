@@ -4,6 +4,7 @@ config.ini
 .idea
 *.json
 *.pem
+*.csv
 
 # GitHub template from https://github.com/github/gitignore/blob/master/Python.gitignore
 

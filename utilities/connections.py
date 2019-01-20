@@ -1,12 +1,14 @@
-import sqlalchemy as sa 
 from configparser import ConfigParser
+
+import sqlalchemy as sa 
+from sqlalchemy.orm import sessionmaker
+
 
 
 
 def create_engine(connection_name, credentials_file_location='config.ini'):
     config = ConfigParser()
     config.read(credentials_file_location)
-    connection_name = connection_name
     host = config.get(connection_name, "host")
     driver = config.get(connection_name, "driver")
     database = config.get(connection_name, "database")

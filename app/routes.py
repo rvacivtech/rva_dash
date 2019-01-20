@@ -56,6 +56,10 @@ def provide_property_assessment():
     logging.debug('Successfully retreived property assessment for {} in {}.'.format(address, zip_code))
     return jsonify(msg=msg, result=record)
 
+@app.route('/api/property_assessment', methods=['GET','POST'])
+def provide_crime_data():
+    pass
+
 @app.route('/', methods=['GET'])
 def marco():
     return 'POLO!'
