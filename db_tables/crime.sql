@@ -4,5 +4,6 @@ create table postgres.public.crime (
   street_address   varchar(255),
   neighborhood    varchar(100),
   description     varchar(100),
-  incident_date   timestamp
+  incident_date   timestamp,
+  scraping_input_date   timestamp
 );
