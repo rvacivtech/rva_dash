@@ -2,9 +2,10 @@ import logging
 from flask import Flask, jsonify, request
 from app import app
 from app.api_requests import get_parcel_summary_by_address, get_property_assessment_by_address
+from app.slack_invite import send_slack_invite
 
 logging.basicConfig(
-    # filename="log.log",
+    filename="routes.log",
     level=logging.DEBUG,
     format="%(asctime)s:%(levelname)s:%(message)s"
 )
@@ -55,6 +56,18 @@ def provide_property_assessment():
         msg = '{} {}'.format(error_message, e)
     logging.debug('Successfully retreived property assessment for {} in {}.'.format(address, zip_code))
     return jsonify(msg=msg, result=record)
+
+@app.route('/api/slack_invite', methods=['GET'])
+def handle_slack_invite_request():
+    email = request.args.get('email')
+    logging.info(f'Slack invite requested for email address: {email}')
+    response = send_slack_invite(email)
+    if response['ok']:
+        msg = 'Success'
+    else:
+        error = response['error']
+        msg = f'Error: {error}'
+    return jsonify(msg=msg)
 
 @app.route('/', methods=['GET'])
 def marco():
