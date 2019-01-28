@@ -28,6 +28,3 @@ def send_slack_invite(email):
         error = data['error']
         logging.warning(f'Slack invite failed: {error}')
     return data
-
-
-# https://slack.com/api/users.admin.invite?token=xoxp-471246971284-471377338051-532736427415-e01b1a80854aa669b4e24f209aad1d1d&email=yopide@4senditnow.com

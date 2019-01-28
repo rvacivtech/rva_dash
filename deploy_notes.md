@@ -22,7 +22,7 @@ execute `gunicorn -b localhost:8000 -w 4 rva_dash:app` to test that gunicorn wor
 Paste the following and save the file (`ctrl+x` to exit and save):
 ```
 [program:rva_dash]
-command=/home/miniconda3/rva_dash/envs/rva_dash/bin/gunicorn -b localhost:8000 -w 4 rva_dash:app
+command=/home/ed_a_nunes_gmail_com/miniconda3/envs/rva_dash/bin/gunicorn -b localhost:8000 -w 4 rva_dash:app
 directory=/home/ed_a_nunes_gmail_com/rva_dash
 user=ed_a_nunes_gmail_com
 autostart=true
