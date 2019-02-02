@@ -40,7 +40,7 @@ This endpoint takes an email address (e.g. "user@example.com") and will generate
 #### `/api/crime-summary?start_date=<optional start date>&end_date=<optional end date>&neighborhood=<optional neighborhood>`
 This enpoint will provide the count of reported crimes in all neighborhoods in a given time period (including an entry for the count of all neighborhoods).  This information is updated daily.  The start_date and end_date should be provided in the yyyy-mm-dd format (e.g. `/api/crime-summary?start_date=2018-01-01&end_date=2018-12-31`.  The start_date and end_date are inclusive.  If no dates are provided the endpoint will provide data on the last 365 days.
 
-This endpoint can also take neighborhood arguments, which will limit the response to specific neighborhoods.  If multiple neighborhoods are desired you should enter the `neighborhood` argument more than once (e.g. `/api/crime-summary?neighborhood=westover%20hills&neighborhood=church%20hill).
+This endpoint can also take neighborhood arguments, which will limit the response to specific neighborhoods.  If multiple neighborhoods are desired you should enter the `neighborhood` argument more than once (e.g. `/api/crime-summary?neighborhood=westover%20hills&neighborhood=church%20hill`).
 
 
 ## [Resources](https://github.com/rvacivtech/rva_dash/tree/master/resources)  
