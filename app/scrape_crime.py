@@ -135,18 +135,21 @@ class Crime_Scraper:
             incident_number_css_selector = ('body > form > table:nth-child(21) > tbody > tr:nth-child(2) > td '
                                             '> table:nth-child(2) > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(1) > td:nth-child(2) > font')
             try:
+                incident_number = 'N/A'
                 incident_number = WebDriverWait(self.browser, timeout_delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, incident_number_css_selector))).text
             except TimeoutException:
                 pass
             address_css_selector = ('body > form > table:nth-child(21) > tbody > tr:nth-child(2) > td '
                                     '> table:nth-child(2) > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > font')
             try:
+                address = 'N/A'
                 address = WebDriverWait(self.browser, timeout_delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, address_css_selector))).text
             except TimeoutException:
                 pass
             description_css_selector = ('body > form > table:nth-child(21) > tbody > tr:nth-child(2) > td '
                                         '> table:nth-child(2) > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(3) > td:nth-child(2) > font')
             try:
+                description = 'N/A'
                 description = WebDriverWait(self.browser, timeout_delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, description_css_selector))).text
             except TimeoutException:
                 pass
@@ -154,9 +157,13 @@ class Crime_Scraper:
                                         '> table:nth-child(2) > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(1) > td:nth-child(4) > font')
             try:
                 incident_date = WebDriverWait(self.browser, timeout_delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, incident_date_css_delector))).text
+                try:
+                    parsed_incident_date = datetime.strptime(incident_date, '%m/%d/%Y %H:%M')
+                except ValueError:
+                    parsed_incident_date = datetime.strptime(self.start_date, '%m/%d/%Y')
             except TimeoutException:
                 pass
-            crime_datum = {'neighborhood':neighborhood, 'incident_number':incident_number, 'street_address':address, 'description':description, 'incident_date':incident_date, 'scraping_input_date':datetime.strptime(start_date, '%m/%d/%Y')self.start_date}
+            crime_datum = {'neighborhood':neighborhood, 'incident_number':incident_number, 'street_address':address, 'description':description, 'incident_date':parsed_incident_date, 'scraping_input_date':datetime.strptime(self.start_date, '%m/%d/%Y')}
             crime_data.append(crime_datum)
             logger.info(f'Just added {crime_datum} to list.')
             self.browser.back()    
