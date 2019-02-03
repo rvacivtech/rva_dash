@@ -65,8 +65,8 @@ def provide_crime_count_by_neighborhood():
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
     neighborhoods = request.args.getlist('neighborhood')
-    parsed_start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-    parsed_end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    parsed_start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d') if start_date else None
+    parsed_end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
     crime_summary = CrimeSummary()
     data = crime_summary.get_neighborhood_crime_count(start_date=parsed_start_date, end_date=parsed_end_date, neighborhoods=neighborhoods)
     return jsonify(result=data)

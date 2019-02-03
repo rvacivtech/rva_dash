@@ -10,6 +10,7 @@ ssh to ubuntu machine
 `cd rva_dash`
 `curl https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh`
 `sh miniconda.sh -b -p $HOME/miniconda`
+`echo "export PATH="$HOME/miniconda/bin:$PATH"" >> ~/.profile`
 `export PATH="$HOME/miniconda/bin:$PATH"`
 `conda env create`
 `source activate rva_dash`
@@ -82,6 +83,7 @@ Follow dirctions at https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx for 
 ##Code Upgrade Instructions
 ssh to ubuntu machine
 `cd rva_dash`
+`git pull master`
 `sudo supervisorctl stop rva_dash`
 `sudo supervisorctl start rva_dash`
 
