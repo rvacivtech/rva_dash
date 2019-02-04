@@ -3,3 +3,12 @@ secret_key = secret
 
 [richmond_open_data]
 app_token = qwertyuiop12345
+
+[production_db]
+host = 12.345.678.901
+port = 5432
+database = postgres
+username = postgres
+password = secret
+db_type = postgres
+driver =

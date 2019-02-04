@@ -21,3 +21,14 @@ from app import routes
 
 if __name__ == '__main__':
     app.run(debug = True)
+
+
+'''
+run locally by executing `gunicorn rva_dash:app`
+
+http://localhost:8000/api/parcel_summary?address=4800%20forest%20hill%20ave&zip_code=23225
+
+http://localhost:8000/api/property_assessment?address=4800%20forest%20hill%20ave&zip_code=23225
+
+http://localhost:8000/api/crime/count-by-neighborhood?start_date=2018-01-01&end_date=2018-06-01
+'''
