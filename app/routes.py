@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request
 from app import app
 from app.api_requests import get_parcel_summary_by_address, get_property_assessment_by_address
 from app.slack_invite import send_slack_invite
-from app.models import CrimeSummary, ParcelSummary, PropertyAssessment
+from app.models import CrimeSummary, ParcelSummary, PropertyAssessment, AllCrimeByMonth
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -87,6 +87,13 @@ def provide_crime_count_by_neighborhood():
     parsed_end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
     crime_summary = CrimeSummary()
     data = crime_summary.get_neighborhood_crime_count(start_date=parsed_start_date, end_date=parsed_end_date, neighborhoods=neighborhoods)
+    return jsonify(result=data)
+
+
+@app.route('/api/crime/count-by-month', methods=['GET'])
+def provide_crime_count_by_month():
+    all_crime = AllCrimeByMonth()
+    data = all_crime.get_all_crime_by_month()
     return jsonify(result=data)
 
 

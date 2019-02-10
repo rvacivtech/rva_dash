@@ -39,6 +39,15 @@ class DatabaseSession():
                 autoload=True,
                 autoload_with=self.engine
         )
+        self.all_crime_by_month = Table("all_crime_by_month", self.metadata,
+                Column("id", Integer, primary_key=True),
+                Column("year", Text),
+                Column("month", Text),
+                Column("date", Text),
+                Column("number_of_crimes", Integer),
+                autoload=True,
+                autoload_with=self.engine
+        )
 
     
     def get_pid_by_address(self, address, zipcode=''):
@@ -57,6 +66,7 @@ class DatabaseSession():
             pid = session.query(self.PropertyAssessment.parcel_id).filter(
                 func.lower(self.PropertyAssessment.address).in_([address, address_variant1, address_variant2, address_variant3])
                 ).first()
+        session.close()
         return pid[0]
 
     @staticmethod
@@ -93,6 +103,7 @@ class Crime(DatabaseSession):
         session = Session()
         session.add(crime)
         self.commit_session(session)
+        session.close()
 
     def insert_many_crime_records(self, crime_list):
         Session = sessionmaker(bind=self.engine) 
@@ -106,6 +117,7 @@ class Crime(DatabaseSession):
                         scraping_input_date=crime.get('scraping_input_date'))
             session.add(crime_record)
         self.commit_session(session)
+        session.close()
 
     def get_last_scraping_input_date(self):
         Session = sessionmaker(bind=self.engine) 
@@ -129,6 +141,7 @@ class ParcelSummary(DatabaseSession):
         Session = sessionmaker(bind=self.engine) 
         session = Session()
         parcel_summary = session.query(self.ParcelSummary).filter(self.ParcelSummary.parcel_id == pid).first()
+        session.close()
         return parcel_summary
     
     def get_parcel_summary_dict_by_address(self, address, zipcode=''):
@@ -145,6 +158,7 @@ class PropertyAssessment(DatabaseSession):
         Session = sessionmaker(bind=self.engine) 
         session = Session()
         property_assessment = session.query(self.PropertyAssessment).filter(self.PropertyAssessment.parcel_id == pid).first()
+        session.close()
         return property_assessment
     
     def get_property_assessment_dict_by_address(self, address, zipcode=''):
@@ -174,5 +188,16 @@ class CrimeSummary(DatabaseSession):
                 self.CrimeSummary.columns.incident_date >= start_date,
                 self.CrimeSummary.columns.incident_date <= end_date
             ).all()
-
+        session.close()
         return crime_count_list
+
+class AllCrimeByMonth(DatabaseSession):
+    def __init__(self, connection_name='production_db'):
+        DatabaseSession.__init__(self, connection_name=connection_name)
+
+    def get_all_crime_by_month(self):
+        Session = sessionmaker(bind=self.engine) 
+        session = Session()
+        data = session.query(self.all_crime_by_month).all()
+        session.close()
+        return data
