@@ -36,3 +36,17 @@ create table postgres.public.property_assessment(
   special_assessment_dist_desc    text,
   lat_lon    text
 );
+
+create index idx_parcel_id on public.property_assessment(parcel_id);
+
+start transaction ;
+
+DELETE
+FROM
+    public.property_assessment as pa1
+        USING public.property_assessment as pa2
+WHERE
+    pa1.id > pa2.id
+    AND pa1.parcel_id = pa2.parcel_id;
+
+rollback;  --  commit

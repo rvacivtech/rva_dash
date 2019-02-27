@@ -70,4 +70,6 @@ voter_precinct    int,
 wetland_flag    text,
 zip_code    text,
 zoning_name    text,
-lat_lon    text)
+lat_lon    text);
+
+create index idx_parcel_id on public.parcel_summary(parcel_id);
