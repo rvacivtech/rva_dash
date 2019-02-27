@@ -132,6 +132,18 @@ class Crime(DatabaseSession):
             session.close()
         return last_date
 
+    def get_crime_records(self, start_date: datetime.datetime = None, end_date: datetime.datetime = None):
+        if not end_date:
+            end_date = datetime.datetime.now()
+        if not start_date:
+            start_date = datetime.datetime.now() - datetime.timedelta(days=365)
+        Session = sessionmaker(bind=self.engine) 
+        session = Session()
+        result = session.query(self.Crime).filter(self.Crime.incident_date >= start_date).filter(self.Crime.incident_date < end_date).all()
+        crime_list = [self.convert_sa_object_to_dict(x) for x in result]
+        return crime_list
+        
+
 
 class ParcelSummary(DatabaseSession):
     def __init__(self, connection_name='production_db'):
@@ -174,7 +186,7 @@ class CrimeSummary(DatabaseSession):
     def get_neighborhood_crime_count(self, start_date=None, end_date=None, neighborhoods=None):
         Session = sessionmaker(bind=self.engine) 
         session = Session()
-        start_date = start_date if start_date else datetime.timedelta(days=365)
+        start_date = start_date if start_date else datetime.datetime.now() - datetime.timedelta(days=365)
         end_date = end_date if end_date else datetime.datetime.now()
         if neighborhoods:
             neighborhoods = [neighborhood.lower() for neighborhood in neighborhoods]

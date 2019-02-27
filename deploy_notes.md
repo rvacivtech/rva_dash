@@ -83,7 +83,8 @@ Follow dirctions at https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx for 
 ##Code Upgrade Instructions
 ssh to ubuntu machine
 `cd rva_dash`
-`git pull master`
+`git fetch`
+`git pull`
 `sudo supervisorctl stop rva_dash`
 `sudo supervisorctl start rva_dash`
 
